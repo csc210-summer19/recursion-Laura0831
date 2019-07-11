@@ -9,7 +9,7 @@
  *   void removeAll(E)
  *   void duplicateAll(E) 
  * 
- * @author Rick Mercer and Your Name
+ * @author Rick Mercer and Laura Bolanos 
  */
 public class LinkedList<E extends Comparable<E>> {
   // extends Comparable<E> means the type must be comparable to avoid CT errors
@@ -70,7 +70,7 @@ public class LinkedList<E extends Comparable<E>> {
       return null;
     // else, call the recursive method that needs a reference to the first element
     return max(first, first.data);
-  }
+  } 
 
   private E max(Node ref, E largest) {
     if (ref.next == null)
@@ -108,8 +108,10 @@ public class LinkedList<E extends Comparable<E>> {
   }
 
   private E get(Node ref, int startIndex, int stopIndex) {
-    // TODO: Complete this method using recursion, no loop allowed.
-    return null;
+	  if(startIndex==stopIndex) {
+		  return ref.data;
+	  }
+    return get(ref.next,startIndex+1 , stopIndex);
   }
  
   
@@ -118,14 +120,59 @@ public class LinkedList<E extends Comparable<E>> {
   public void removeAll(E el) {
     // This public method requires a call to a private helper method
     // with first as an argument. It must be recursive, no loop allowed.
+	  removeHelper(el, first);
   }
 
+  private void removeHelper(E el,  Node current) {
+	  
+	  if(current==null) {
+		  return;
+	  }
+	  else {
+
+		 
+		  if(first==current && current.data.equals(el) ) {	  
+			  first= first.next;
+			  n--;
+			  removeHelper(el, current ); 
+		  }
+		  
+		  if(current.next==null ) {
+			  return;
+		  }
+		  
+		  if(current.next.data.equals(el) ) {
+			  current.next= current.next.next;
+			  n--;			  
+		  }
+		  removeHelper(el, current.next );  
+	  }
+  }
+  
   // Duplicate el next to each occurrence of el in this list.
   public void duplicateAll(E el) {
-    // This public method requires a call to a private helper method
-    // with first as an argument. It must be recursive, no loop allowed.
+	  duplicateHelper(el, first);
   }
 
+  private void duplicateHelper(E el, Node current) {
+	 
+	  if(current==null) {
+		  return;
+	  }
+	  else {
+		  
+		  
+		  if(current.data.equals(el)) {
+			  current.next= new Node(el,current.next);
+				 n++;  
+		  }
+		  if(current.next==null ) {
+			  return;
+		  }
+		  
+		  duplicateHelper(el, current.next.next);
+	  }
+  }
 
 
 }
